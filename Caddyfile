@@ -1,0 +1,6 @@
+localhost:80
+
+root src/
+
+mime .jsm application/ECMAScript
+mime .js application/JavaScript
