@@ -1,8 +1,91 @@
+/* - CSS Reset - */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body, html {
 	margin: 0;
+	font-family: "Roboto", sans-serif;
+	background-color: #444;
 }
+
+/* - The XR Status Region - */
+.xr-status {
+	margin: 5px;
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid;
+	transition: all 1s;
+	position: fixed;
+	top: 0;
+	z-index: 4;
+	background-color: #fff;
+}
+.xr-status.unsupported {
+	background-color: #AF2E56;
+	border-color: #9E0031;
+	color: #480017;
+}
+.xr-status.available {
+	background-color: #30D6B4;
+	border-color: #025E4B;
+	color: #025E4B;
+}
+.xr-status.unchecked {
+	background-color: #5877A8;
+	border-color: #22395F;
+	color: #22395F;
+}
+.xr-status.pre-loading {
+	background-color: #EAC435;
+	border-color: #806B1D;
+	color: #806B1D;
+}
+.xr-status:not(.available) button {
+	display: none;
+}
+.xr-status.available::before {
+	content: "XR Supported - ";
+}
+.xr-status.unchecked::before {
+	content: "Checking XR Support...";
+}
+.xr-status.unsupported::before {
+	content: "Unsupported: Connect an XR capable device or open this page from one.";
+}
+.xr-status.pre-loading::before {
+	content: "XR supported - Loading content";
+}
+
+/* - This sets up the full viewport first page - */
+main {
+	background-color: #fff;
+	margin: 100vh auto 0 auto;
+	max-width: 500px;
+	padding: 20px;
+}
+@keyframes arrow-anim {
+	0% {
+		bottom: 20px;
+	}
+	100% {
+		bottom: 0;
+	}
+}
+main::before {
+	animation: arrow-anim 1s infinite alternate ease-out;
+	font-weight: bold;
+	left: 50%;
+	position: absolute;
+	display: block;
+	font-weight: bold;
+	font-size: 36px;
+	content: "↓";
+	padding: 10px;
+	transform: translateX(-50%);
+	z-index: 2;
+}
+
+/* - The Magic Windows Canvas and it's placeholder - */
 .magic-window {
-	z-index: -1;
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -13,12 +96,4 @@ body, html {
 	background-size: cover;
 	/* This would be an image of our experience that we replace when the experience loads: */
 	background-image: url("../resources/experience-teaser.png");
-}
-main {
-	/* padding-top: 100%; */
-	background-color: #fff;
-	margin: 100vh auto 0 auto;
-	/* position: absolute; */
-	max-width: 500px;
-	padding: 20px;
 }

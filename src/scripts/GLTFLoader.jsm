@@ -10,7 +10,7 @@
  * Original code from the Three repo, modularized for use in our project.
  */
 
-import * as THREE from '../../node_modules/three/build/three.module.js';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.100.0/build/three.module.min.js';
 
 export default class GLTFLoader {
 	constructor( manager = THREE.DefaultLoadingManager) {
