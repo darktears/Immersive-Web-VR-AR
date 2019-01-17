@@ -18,12 +18,6 @@ function listenOnce(object, event) {
 	})
 }
 
-//Three variables - Global for now
-let scene,
-	camera,
-	renderer,
-	cube;
-
 function delay(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -52,6 +46,7 @@ const XRStatus = new (class {
 /*
  * Initializes three.js
  */
+let scene, camera, cube, renderer;
 async function initialize() {
 
 	//Initialize scene
@@ -61,12 +56,16 @@ async function initialize() {
 	//Init camera
 	camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 2000);
 
+	// Magic Window Placeholder:
+	const mwPlaceholder = document.body.querySelector('.magic-window.placeholder');
+	const targetRect = mwPlaceholder.getBoundingClientRect();
+
 	// Get an XR device...
 	const device = await (async resolve => {
 		while(1) {
 			try {
 				// DEBUG: Test any delay in checking whether or not XR is available
-				await delay(1000);
+//				await delay(1000);
 				// See if a device is available immediately
 				let device = await navigator.xr.requestDevice(); // This throws if no device is available
 				XRStatus.status = 'pre-loading';
@@ -81,57 +80,68 @@ async function initialize() {
 		}
 	})();
 
+	// Load Content
+	await fillScene(scene);
+	camera.position.z = 5;
+
+	// Create renderer
+	renderer = new THREE.WebGLRenderer();
+	renderer.setSize(targetRect.width, targetRect.height);
+
 	// Check for Magic Window Support
+	{
+		const magicCanvas = document.createElement('canvas');
+		magicCanvas.classList.add('magic-window');
+		const magicContext = magicCanvas.getContext('xrpresent');
+		try {
+			const session = await device.requestSession({ outputContext: magicContext });
+			// Magic Window is supported
+			{
+				magicCanvas.width = targetRect.width;
+				magicCanvas.height = targetRect.height;
+				mwPlaceholder.replaceWith(magicCanvas);
 
+				await renderer.vr.setDevice(device);
 
-	{	// Try loading a model and simulate the loading time.
-		const GLTFLoader = (await import('./GLTFLoader.jsm')).default;
+				session.baseLayer = new XRWebGLLayer(session, renderer.context);
 
-		// DEBUG: Simulate loading the assets we need:
-		await delay(3000);
-
-		let importedScene = await new Promise((resolve, reject) => {
-			const loader = new GLTFLoader();
-
-			loader.load("resources/Suzanne.gltf", gltf => {
-				resolve(gltf.scene);
-			}, undefined, error => {
-				reject(error);
-			});
-		});
-
-		scene.add(importedScene);
+				session.requestAnimationFrame(animate);
+			}
+		} catch(e) {
+			console.log('Unable to start the magic window:', e);
+		}
 	}
-//	*/
+}
+
+async function fillScene(scene) {
+	// Try loading a model and simulate the loading time.
+	const GLTFLoader = (await import('./GLTFLoader.jsm')).default;
+
+	// DEBUG: Simulate loading the assets we need:
+//	await delay(3000);
+
+	let importedScene = await new Promise((resolve, reject) => {
+		const loader = new GLTFLoader();
+
+		loader.load("resources/Suzanne.gltf", gltf => {
+			resolve(gltf.scene);
+		}, undefined, error => {
+			reject(error);
+		});
+	});
+
+	scene.add(importedScene);
+
 	let geometry = new THREE.BoxGeometry( 1, 1, 1 );
 	let material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 	cube = new THREE.Mesh( geometry, material );
 	scene.add( cube );
-
-	camera.position.z = 5;
-
-	const placeholder = document.body.querySelector('.magic-window.placeholder');
-
-	//Init renderer
-	renderer = new THREE.WebGLRenderer();
-	{
-		const destRect = placeholder.getBoundingClientRect();
-		renderer.setSize(destRect.width, destRect.height);
-	}
-	renderer.domElement.classList.add('magic-window');
-	// TODO: This replaceWith is a little jerky, Maybe swap it out with some delay and animation?
-	placeholder.replaceWith(renderer.domElement);
-
-	//Add event listener for automatic resizing
-	window.addEventListener('resize', onWindowResize, false);
-
-	animate();
 }
 
 /*
  * Main event loop
  */
-function animate()
+function animate(timestamp, xrFrame)
 {
 	requestAnimationFrame(animate);
 	cube.rotation.y += .05;

@@ -82,6 +82,7 @@ main::before {
 	padding: 10px;
 	transform: translateX(-50%);
 	z-index: 2;
+	color: #668db1;
 }
 
 /* - The Magic Windows Canvas and it's placeholder - */
