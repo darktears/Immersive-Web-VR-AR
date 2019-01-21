@@ -13,7 +13,7 @@ body, html {
 	padding: 5px;
 	border-radius: 3px;
 	border: 1px solid;
-	transition: all 1s;
+	transition: border 1s, background-color 1s, color 1s;
 	position: fixed;
 	top: 0;
 	z-index: 4;
@@ -60,6 +60,7 @@ main {
 	background-color: #fff;
 	max-width: 500px;
 	padding: 20px;
+	margin: 0 auto;
 }
 @keyframes arrow-anim {
 	0% {
