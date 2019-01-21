@@ -58,7 +58,6 @@ body, html {
 /* - This sets up the full viewport first page - */
 main {
 	background-color: #fff;
-	margin: 100vh auto 0 auto;
 	max-width: 500px;
 	padding: 20px;
 }
@@ -87,14 +86,12 @@ main::before {
 
 /* - The Magic Windows Canvas and it's placeholder - */
 .magic-window {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 }
 .magic-window.placeholder {
 	background-size: cover;
+	background-position: center;
 	/* This would be an image of our experience that we replace when the experience loads: */
 	background-image: url("../resources/experience-teaser.png");
 }

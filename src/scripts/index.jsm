@@ -20,7 +20,7 @@ class Experience {
 	async run() {
 		//Initialize scene
 		this.scene = new THREE.Scene();
-		this.scene.background = new THREE.Color(0, 0, 0);
+		this.scene.background = new THREE.Color(100, 100, 100);
 
 		//Init camera
 		this.camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 2000);
@@ -95,7 +95,7 @@ class Experience {
 		let pose = xrFrame.getDevicePose(this.referenceFrame);
 
 		const baseLayer = this.session.baseLayer;
-		this.renderer.setSize(baseLayer.frameBufferWidth, baseLayer.frameBufferHeight, false);
+		this.renderer.setSize(baseLayer.framebufferWidth, baseLayer.framebufferHeight, false);
 
 		this.renderer.context.bindFramebuffer(this.renderer.context.FRAMEBUFFER, baseLayer.frameBuffer);
 
