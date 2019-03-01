@@ -24,7 +24,8 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "cannon": "^0.6.2",
-    "three": "^0.100.0"
+    "three": "^0.100.0",
+    "three.textsprite": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

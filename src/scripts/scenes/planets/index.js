@@ -1,11 +1,8 @@
-import {
-  AmbientLight,
-  PointLight,
-  Color
-} from 'three';
+import { AmbientLight, PointLight, Color } from 'three';
 import XrScene from '../xr-scene';
 import { createPlanets } from './create';
 import { movePlanets } from './orbit';
+import { createStats } from './stats-display';
 
 export default class PlanetsScene extends XrScene {
   /**
@@ -20,6 +17,10 @@ export default class PlanetsScene extends XrScene {
     this.planets = createPlanets();
     this.planets.forEach(p => this.scene.add(p.mesh));
     this.addLighting();
+
+    const [text, animateText]= createStats('Planet 1', 3);
+    this.scene.add(text);
+    this.animateText = animateText;
   }
 
   addLighting() {
@@ -38,5 +39,6 @@ export default class PlanetsScene extends XrScene {
    */
   animate(delta) {
     movePlanets(this.planets, delta);
+    this.animateText(this.planets[0].mesh);
   }
 }
