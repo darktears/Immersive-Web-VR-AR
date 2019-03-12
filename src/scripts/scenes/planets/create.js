@@ -56,11 +56,11 @@ const randBetween = (low, high) => randBetweenPos(low, high) * (Math.random() > 
  * @returns {Planet[]} created planets
  */
 export function createPlanets() {
-  const sizes = [0.5, 0.75, 1, 0.5, 1, 0.75, 1, 0.5];
+  const sizes = [5.0, 7.5, 10.0, 5.0, 10.0, 7.5, 10.0, 5.0];
   return sizes.map((radius) => {
-    const x = randBetween(4, 10);
-    const y = randBetween(4, 10);
-    const z = randBetween(4, 10);
+    const x = randBetween(40, 100);
+    const y = randBetween(40, 100);
+    const z = randBetween(40, 100);
 
     const velocity = new Vector3(0, 0, 0);
 

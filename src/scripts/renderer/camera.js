@@ -4,7 +4,7 @@ import { initialAspect } from './canvas';
 export const cameraSettings = {
   viewAngle: 90,
   near: 0.1,
-  far: 1000
+  far: 100000
 };
 
 export const camera = new PerspectiveCamera(

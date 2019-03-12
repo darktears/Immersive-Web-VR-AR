@@ -13,7 +13,7 @@ export function createStats(text, xOffset = 5) {
       depthTest: false
     },
     redrawInterval: 250,
-    textSize: 1,
+    textSize: 12,
     texture: {
       fontFamily: 'Roboto, sans-serif',
       text

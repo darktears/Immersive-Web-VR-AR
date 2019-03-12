@@ -18,7 +18,7 @@ export default class PlanetsScene extends XrScene {
     this.planets.forEach(p => this.scene.add(p.mesh));
     this.addLighting();
 
-    const [text, animateText]= createStats('Planet 1', 3);
+    const [text, animateText]= createStats('Planet 1', 0);
     this.scene.add(text);
     this.animateText = animateText;
   }
@@ -27,7 +27,7 @@ export default class PlanetsScene extends XrScene {
     const ambientLight = new AmbientLight('white', 0.1);
     this.scene.add(ambientLight);
 
-    const pointLight = new PointLight('white', 0.8, 1000);
+    const pointLight = new PointLight('white', 0.8, 10000);
     pointLight.position.set(5, 5, 5);
     this.scene.add(pointLight);
   }
