@@ -3,9 +3,9 @@ import {
 } from 'three';
 import { World } from 'cannon';
 
-import { XR } from '../xrController';
+import { XR, applyOriginOffset } from '../xrController';
 import { canvas } from '../renderer/canvas';
-import { userPosition, updateTouchPosition } from '../controls/touch-controls';
+import { updateTouchPosition } from '../controls/touch-controls';
 import {
   keyboard,
   controls,
@@ -194,6 +194,8 @@ export default class XrScene {
           const view = pose.views[i];
           const viewport = XR.session.renderState.baseLayer.getViewport(view);
           const viewMatrix = new Matrix4().fromArray(view.viewMatrix);
+
+          applyOriginOffset(viewMatrix);
 
           this.renderer.context.viewport(
             viewport.x,
