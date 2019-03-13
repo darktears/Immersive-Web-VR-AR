@@ -29,9 +29,9 @@ const Routes = {
  * update currently displayed scene based on the pathname
  * @param {string} pathname
  */
+function navigateToScene(pathname, oldPath) {
   console.log('navigating from:', oldPath, 'to:', pathname);
   let currentScene = getCurrentScene();
-async function navigateToScene(pathname, oldPath) {
   if (currentScene) {
     currentScene.isActive = false;
     // Save the state from the previous scene
