@@ -40,9 +40,6 @@ export default class XrScene {
     this.renderer = renderer;
     this.camera = camera;
 
-    // Make sure that animation callback is called on an xrAnimate event.
-    this._addEventListener(window, 'xrAnimate', this._restartAnimation);
-
     this._checkForKeyboardMouse();
   }
 
@@ -76,11 +73,6 @@ export default class XrScene {
   startAnimation() {
     this._animationCallback();
   }
-
-  _restartAnimation = () => {
-    if (this.frame) window.cancelAnimationFrame(this.frame);
-    this._animationCallback();
-  };
 
   _animationCallback = (timestamp, xrFrame) => {
     if (this.isActive) {
