@@ -27,6 +27,7 @@ export default class XrScene {
   clock = new Clock();
 
   loader = new Loader();
+  state = {};
 
   triggers = new Group();
 
