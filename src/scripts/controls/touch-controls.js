@@ -1,8 +1,6 @@
 import {
   Vector3,
-  Matrix4,
-  Quaternion,
-  Vector4
+  Quaternion
 } from 'three';
 import { Direction, createFullScreenButton } from './control-utils';
 import { XR } from '../xrController';
