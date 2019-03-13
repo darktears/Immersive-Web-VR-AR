@@ -1,11 +1,11 @@
 import {
-  Scene, Matrix4, Vector3, Clock
+  Scene, Matrix4, Clock
 } from 'three';
 import { World } from 'cannon';
 
-import { XR } from '../xrController';
+import { XR, applyOriginOffset } from '../xrController';
 import { canvas } from '../renderer/canvas';
-import { userPosition, updateTouchPosition } from '../controls/touch-controls';
+import { updateTouchPosition } from '../controls/touch-controls';
 import {
   keyboard,
   controls,
@@ -126,6 +126,8 @@ export default class XrScene {
           const viewport = XR.session.renderState.baseLayer.getViewport(view);
           const viewMatrix = new Matrix4().fromArray(view.viewMatrix);
 
+          applyOriginOffset(viewMatrix);
+
           this.renderer.context.viewport(
             viewport.x,
             viewport.y,
@@ -136,9 +138,6 @@ export default class XrScene {
           // Update user position if touch controls are in use with magic window.
           if (XR.magicWindowCanvas && XR.magicWindowCanvas.hidden === false) {
             updateTouchPosition(viewMatrix);
-            this._translateViewMatrix(viewMatrix, userPosition);
-          } else {
-            this._translateViewMatrix(viewMatrix, new Vector3(0, 0, 0));
           }
 
           this.camera.matrixWorldInverse.copy(viewMatrix);
@@ -161,24 +160,6 @@ export default class XrScene {
     if (keyboard) {
       this.scene.add(controls.getObject());
     }
-  }
-
-  _translateViewMatrix(viewMatrix, position) {
-    // Save initial position for later
-    const tempPosition = new Vector3(position.x, position.y, position.z);
-    const tempViewMatrix = new Matrix4().copy(viewMatrix);
-
-    tempViewMatrix.setPosition(new Vector3());
-    tempPosition.applyMatrix4(tempViewMatrix);
-
-    const translationInView = new Matrix4();
-    translationInView.makeTranslation(
-      tempPosition.x,
-      tempPosition.y,
-      tempPosition.z
-    );
-
-    viewMatrix.premultiply(translationInView);
   }
 
   /**
