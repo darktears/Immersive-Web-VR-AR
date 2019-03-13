@@ -21,6 +21,7 @@ export default class XrScene {
   clock = new Clock();
 
   loader = new Loader();
+  state = {};
 
   isActive = true;
 
