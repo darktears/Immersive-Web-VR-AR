@@ -24,7 +24,9 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "cannon": "^0.6.2",
-    "three": "^0.101.1"
+    "eslint-scope": "^4.0.2",
+    "three": "^0.101.1",
+    "three-gltf-loader": "^1.102.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -32,9 +34,9 @@
     "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.15.0",
+    "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
-    "parcel-bundler": "^1.11.0"
+    "parcel-bundler": "^1.12.1"
   }
 }
